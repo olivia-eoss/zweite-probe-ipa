@@ -7,12 +7,18 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			logo: {
+				src: './src/assets/Logo-hev.svg',
+				replacesTitle: true,
+			},
+			customCss: ["./src/styles/global.css"],
+			components: {
+			Hero: "./src/components/MyHeader.astro",
+			},
 			sidebar: [
 				{
 					label: 'Guides',
 					items: [
-						// Each item here is one entry in the navigation menu.
 						{ label: 'Example Guide', slug: 'guides/example' },
 					],
 				},

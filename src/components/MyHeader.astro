@@ -1,0 +1,53 @@
+---
+const {
+  title = "HEV Dokumentation metasfresh",
+  subtitle = "Dokumentation zum HEV Admin (metasfresh) für die Nutzer der HEV Sektion.",
+  primaryLabel = "Zur Dokumentation",
+  primaryHref = "/docs/",
+  secondaryLabel = "zu metasfresh",
+  secondaryHref = "https://www.metasfresh.com",
+} = Astro.props;
+---
+
+<section class="hev-hero">
+  <div class="hev-hero__inner">
+    <h1 class="hev-hero__title">{title}</h1>
+    <p class="hev-hero__subtitle">{subtitle}</p>
+
+    <div class="hev-hero__actions">
+      <a class="hev-btn hev-btn--primary" href={primaryHref}>
+        {primaryLabel}
+      </a>
+
+      <a
+        class="hev-btn hev-btn--outline"
+        href={secondaryHref}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {secondaryLabel}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hev-hero {
+    padding: 4.5rem 1.25rem 3.5rem;
+    text-align: center;
+  }
+
+  .hev-hero__inner {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .hev-hero__title {
+    color: var(--sl-color-accent);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.5rem;
+  }
+
+  .hev-hero__subtitle {
+    marg

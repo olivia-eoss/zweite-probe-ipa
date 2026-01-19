@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+
+:root {
+  --color-green: #2E8555;
+  --color-white: #FFFFFF;
+  --color-black: #24372C;
+  --color-grey-100: #EDEDED;
+  --color-green-46: rgba(46, 133, 85, 0.46);
+
+  --font-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* Typography – Desktop */
+  --fs-h1: 48px;
+  --fs-h2: 32px;
+  --fs-h3: 24px;
+  --fs-h4: 18px;
+  --fs-p: 18px;
+
+  /* Typography – Mobile */
+  --fs-h1-m: 32px;
+  --fs-h2-m: 24px;
+  --fs-h3-m: 18px;
+  --fs-h4-m: 14px;
+  --fs-p-m: 14px;
+
+  --sl-color-accent: var(--color-green);
+  --sl-color-accent-high: var(--color-green);
+  --sl-color-accent-low: var(--color-green-46);
+
+  --sl-color-text: var(--color-black);
+  --sl-color-bg: var(--color-white);
+  --sl-color-gray-1: var(--color-grey-100);
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  color: var(--color-black);
+}
+
+h1 { font-size: var(--fs-h1); line-height: 1.1; margin: 0 0 0.6em; }
+h2 { font-size: var(--fs-h2); line-height: 1.15; margin: 0 0 0.6em; }
+h3 { font-size: var(--fs-h3); line-height: 1.2; margin: 0 0 0.5em; }
+h4 { font-size: var(--fs-h4); line-height: 1.25; margin: 0 0 0.5em; }
+p  { font-size: var(--fs-p);  line-height: 1.6; margin: 0 0 1em; }
+
+@media (max-width: 767px) {
+  h1 { font-size: var(--fs-h1-m); }
+  h2 { font-size: var(--fs-h2-m); }
+  h3 { font-size: var(--fs-h3-m); }
+  h4 { font-size: var(--fs-h4-m); }
+  p  { font-size: var(--fs-p-m); }
+}
+
