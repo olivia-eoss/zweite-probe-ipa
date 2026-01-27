@@ -30,6 +30,12 @@
   // Pagefind laden
   async function loadPagefind() {
     try {
+      // Prüfe ob Pagefind verfügbar ist
+      const response = await fetch("/pagefind/pagefind.js");
+      if (!response.ok) {
+        throw new Error("Pagefind nicht gefunden");
+      }
+
       // @ts-ignore - Pagefind wird beim Build generiert
       const pagefind = await import("/pagefind/pagefind.js");
       await pagefind.options({
@@ -58,17 +64,15 @@
         },
       });
     } catch (error) {
-      console.warn(
-        'Pagefind ist im Dev-Modus nicht verfügbar. Bitte "npm run build && npm run preview" ausführen.',
-      );
+      console.error("Pagefind Error:", error);
       // Zeige eine Nachricht im Modal
       const container = document.getElementById("pagefind-search");
       if (container) {
         container.innerHTML = `
           <div style="padding: 2rem; text-align: center; color: #6b7280;">
-            <p>⚠️ Search ist nur im Production-Build verfügbar.</p>
+            <p>⚠️ Search ist nicht verfügbar.</p>
             <p style="margin-top: 1rem; font-size: 0.875rem;">
-              Führe <code style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">npm run build && npm run preview</code> aus.
+              ${error instanceof Error ? error.message : "Unbekannter Fehler"}
             </p>
           </div>
         `;
