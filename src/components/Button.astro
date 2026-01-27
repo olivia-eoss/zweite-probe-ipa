@@ -1,0 +1,177 @@
+---
+import { ArrowRight } from "@lucide/astro";
+
+type Mode = "internal" | "external";
+type Color = "green" | "white";
+
+interface Props {
+  href: string;
+  mode?: Mode;
+  color?: Color;
+  icon?: any;
+  label?: string;
+  target?: string;
+  class?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  mode = "internal",
+  color = "green",
+  icon: Icon,
+  label,
+  target,
+  class: className,
+  ariaLabel,
+} = Astro.props;
+
+const isExternal = mode === "external";
+const finalTarget = target ?? (isExternal ? "_blank" : undefined);
+
+const showInternalIcon = mode === "internal" && Icon;
+const showExternalArrow = isExternal;
+---
+
+<a
+  class:list={["ms-btn", `ms-btn--${mode}`, `ms-btn--${color}`, className]}
+  href={href}
+  target={finalTarget}
+  aria-label={ariaLabel}
+>
+  {
+    showInternalIcon && (
+      <span class="ms-btn__icon" aria-hidden="true">
+        <Icon class="ms-btn__iconSvg" />
+      </span>
+    )
+  }
+
+  <span class="ms-btn__label">
+    {label ?? <slot />}
+  </span>
+
+  {
+    showExternalArrow && (
+      <span class="ms-btn__arrow" aria-hidden="true">
+        <ArrowRight class="ms-btn__arrowSvg" />
+      </span>
+    )
+  }
+</a>
+
+<style>
+  /* Base */
+  .ms-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+
+    gap: 16px;
+
+    transition:
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+    will-change: transform;
+  }
+
+  .ms-btn__label :global(p) {
+    margin: 0 !important;
+  }
+
+  .ms-btn__label {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .ms-btn__icon,
+  .ms-btn__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Lucide Icons (gleich gross wie Screenshot) */
+  .ms-btn__iconSvg,
+  .ms-btn__arrowSvg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* ===== Color styles ===== */
+  /* GREEN button */
+  .ms-btn--green {
+    background: var(--color-green);
+    color: var(--color-white);
+    border-color: var(--color-green);
+  }
+
+  /* WHITE button (outlined + green text like your screenshot) */
+  .ms-btn--white {
+    background: var(--color-white);
+    color: var(--color-green);
+    border-color: var(--color-green);
+  }
+
+  /* ===== Hover behavior (same for internal/external) ===== */
+  .ms-btn--green:hover {
+    background: var(--color-black);
+    border-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .ms-btn--white:hover {
+    background: var(--color-grey-100); /* “abgedunkelt” */
+    color: var(--color-green);
+    border-color: var(--color-green);
+  }
+
+  /* ===== External arrow animation ===== */
+  .ms-btn--external .ms-btn__arrowSvg {
+    transition:
+      transform 180ms ease,
+      opacity 180ms ease,
+      filter 180ms ease;
+  }
+
+  .ms-btn--external:hover .ms-btn__arrowSvg {
+    transform: translateX(4px);
+    opacity: 0.9;
+    filter: brightness(0.95);
+  }
+
+  /* Optional: small lift */
+  .ms-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Focus */
+  .ms-btn:focus-visible {
+    outline: 3px solid var(--color-green-46);
+    outline-offset: 4px;
+  }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    .ms-btn {
+      min-height: 52px;
+      padding: 0 18px;
+      font-size: 20px;
+      border-radius: 14px;
+      gap: 12px;
+    }
+
+    .ms-btn__iconSvg,
+    .ms-btn__arrowSvg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+</style>

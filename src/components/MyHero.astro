@@ -1,0 +1,118 @@
+---
+import imgGuide from "../assets/hev-hero-guide.png";
+import imgMeeting from "../assets/hev-hero-meeting.png";
+import Button from "./Button.astro";
+---
+
+<section class="hev-hero">
+  <div class="hev-hero__inner">
+    <div class="hev-hero__left">
+      <h1 class="hev-hero__title">Mitgliederverwaltung mit Metasfresh</h1>
+
+      <p class="hev-hero__text">
+        Schritt-für-Schritt-Anleitungen für die strukturierte Verwaltung Ihrer
+        Mitglieder, Rechnungen und Zahlungen. Verstehen Sie Workflows,
+        automatisieren Sie Prozesse und behalten Sie jederzeit den Überblick
+        über Ihre ERP-Daten.
+      </p>
+
+      <Button href="https://hev.metasfresh.com/" mode="external" color="green">
+        zu metasfresh
+      </Button>
+    </div>
+
+    <div class="hev-hero__right" aria-hidden="true">
+      <div class="hev-hero__images">
+        <figure class="hev-hero__img hev-hero__img--left">
+          <img src={imgGuide.src} alt="" loading="eager" />
+        </figure>
+
+        <figure class="hev-hero__img hev-hero__img--right">
+          <img src={imgMeeting.src} alt="" loading="eager" />
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hev-hero {
+    padding: 80px 0 120px 0;
+  }
+
+  .hev-hero__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2.25rem;
+    align-items: center;
+  }
+
+  .hev-hero__title {
+    color: var(--sl-color-accent);
+    margin: 0 0 0.75rem;
+    line-height: 1.05;
+  }
+
+  .hev-hero__text {
+    margin: 0 0 1.25rem;
+    max-width: 42ch;
+    color: var(--sl-color-text);
+    opacity: 0.9;
+  }
+
+  /* --- Bilder rechts: nebeneinander + Offset --- */
+  .hev-hero__images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .hev-hero__img {
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--sl-color-hairline);
+    background: var(--sl-color-bg);
+    box-shadow: 0 10px 30px var(--sl-color-shadow);
+  }
+
+  .hev-hero__img img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* rechtes Bild tiefer */
+  .hev-hero__img--right {
+    margin-top: 2.25rem; /* <- Offset einstellen */
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hev-hero__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .hev-hero__images {
+      grid-template-columns: 1fr 1fr; /* bleibt nebeneinander */
+      gap: 0.9rem;
+    }
+
+    .hev-hero__img--right {
+      margin-top: 1.25rem; /* kleinerer Offset auf Mobile */
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hev-hero__images {
+      grid-template-columns: 1fr; /* untereinander */
+    }
+
+    .hev-hero__img--right {
+      margin-top: 0; /* kein Offset, weil untereinander */
+    }
+  }
+</style>

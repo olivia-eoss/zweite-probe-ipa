@@ -1,0 +1,92 @@
+---
+// TilesGrid.astro
+import Tile from "./Tile.astro";
+import {
+  Users,
+  CreditCard,
+  FileText,
+  Leaf,
+  LeafIcon,
+  LeafyGreen,
+} from "@lucide/astro";
+---
+
+<h2>Unsere Kategorien</h2>
+<p>
+  Wählen Sie eine Kategorie aus, um detaillierte Anleitungen und Hilfestellungen
+  zu erhalten.
+</p>
+
+<section class="tiles">
+  <div class="tiles__grid">
+    <Tile
+      href="/mitglieder"
+      title="Mitglieder"
+      description="Verwaltung von Mitgliederdaten und Profile"
+      tone="green"
+      size="lg"
+      mainIcon={Users}
+      badgeIcon={Users}
+    />
+
+    <Tile
+      href="/zahlungen"
+      title="Zahlungen"
+      description="Beiträge und Transaktionen verwalten"
+      tone="mint"
+      size="sm"
+      mainIcon={CreditCard}
+      badgeIcon={CreditCard}
+    />
+
+    <Tile
+      href="/rechnungen"
+      title="Rechnungen"
+      description="Rechnungserstellung und Verwaltung"
+      tone="light"
+      size="sm"
+      mainIcon={FileText}
+      badgeIcon={FileText}
+    />
+
+    <Tile
+      href="/berichte"
+      title="Berichte"
+      description="Analysen, Reports und Statistiken erstellen"
+      tone="dark"
+      size="wide"
+      mainIcon={Leaf}
+      badgeIcon={Leaf}
+    />
+  </div>
+</section>
+
+<style>
+  .tiles__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto; /* ← WICHTIG */
+    gap: 18px;
+    align-items: stretch;
+  }
+
+  .tiles__grid :global(.tile:nth-child(1)) {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  /* Wide Tile über 2 Spalten rechts (wie im Screenshot) */
+  .tiles__grid :global(.tile--wide) {
+    grid-column: 2 / 4;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .tiles__grid {
+      grid-template-columns: 1fr;
+    }
+    .tiles__grid :global(.tile--wide) {
+      grid-column: auto;
+    }
+  }
+</style>

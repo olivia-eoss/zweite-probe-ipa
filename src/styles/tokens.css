@@ -31,6 +31,10 @@
   --sl-color-text: var(--color-black);
   --sl-color-bg: var(--color-white);
   --sl-color-gray-1: var(--color-grey-100);
+
+
+    --sl-nav-pad-x: 0px;
+    --sl-nav-pad-y: 0px;
 }
 
 html,
@@ -44,6 +48,7 @@ h2 { font-size: var(--fs-h2); line-height: 1.15; margin: 0 0 0.6em; }
 h3 { font-size: var(--fs-h3); line-height: 1.2; margin: 0 0 0.5em; }
 h4 { font-size: var(--fs-h4); line-height: 1.25; margin: 0 0 0.5em; }
 p  { font-size: var(--fs-p);  line-height: 1.6; margin: 0 0 1em; }
+a  { color: var(--color-text); text-decoration: none; }
 
 @media (max-width: 767px) {
   h1 { font-size: var(--fs-h1-m); }
@@ -53,3 +58,8 @@ p  { font-size: var(--fs-p);  line-height: 1.6; margin: 0 0 1em; }
   p  { font-size: var(--fs-p-m); }
 }
 
+
+/*Content breite*/
+.sl-layout--splash {
+  --sl-content-width-wide: 1600px;
+}

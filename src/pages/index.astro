@@ -1,0 +1,67 @@
+---
+import HomeLayout from "../layouts/HomeLayout.astro";
+import CustomSearch from "../components/CustomSearch.astro";
+---
+
+<HomeLayout title="HEV Doku - Startseite">
+  <div class="page-container">
+    <header class="header">
+      <div class="logo">📗 HEV Doku</div>
+      <CustomSearch />
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Willkommen zur HEV Dokumentation</h1>
+        <p>Teste die Suche mit Cmd/Ctrl + K oder klicke auf den Suchen-Button</p>
+      </section>
+    </main>
+  </div>
+</HomeLayout>
+
+<style>
+  .page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #059669;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    max-width: 800px;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #111827;
+  }
+
+  .hero p {
+    font-size: 1.125rem;
+    color: #6b7280;
+  }
+</style>

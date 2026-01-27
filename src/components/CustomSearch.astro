@@ -1,0 +1,221 @@
+---
+// src/components/CustomSearch.astro
+---
+
+<div class="search-container">
+  <button id="search-open" class="search-button">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <span>Suchen...</span>
+    <kbd>⌘K</kbd>
+  </button>
+
+  <div id="search-modal" class="search-modal hidden">
+    <div class="search-backdrop" id="search-backdrop"></div>
+    <div class="search-content">
+      <div id="pagefind-search"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Pagefind laden
+  async function loadPagefind() {
+    try {
+      // @ts-ignore - Pagefind wird beim Build generiert
+      const pagefind = await import("/pagefind/pagefind.js");
+      await pagefind.options({
+        excerptLength: 15,
+      });
+
+      // Search UI initialisieren
+      // @ts-ignore
+      const ui = new pagefind.PagefindUI({
+        element: "#pagefind-search",
+        showSubResults: true,
+        showImages: false,
+        translations: {
+          placeholder: "Dokumentation durchsuchen...",
+          clear_search: "Löschen",
+          load_more: "Mehr laden",
+          search_label: "Diese Seite durchsuchen",
+          filters_label: "Filter",
+          zero_results: "Keine Ergebnisse für [SEARCH_TERM]",
+          many_results: "[COUNT] Ergebnisse für [SEARCH_TERM]",
+          one_result: "[COUNT] Ergebnis für [SEARCH_TERM]",
+          alt_search:
+            "Keine Ergebnisse für [SEARCH_TERM]. Zeige stattdessen Ergebnisse für [DIFFERENT_TERM]",
+          search_suggestion: "Meinten Sie [DIFFERENT_TERM]?",
+          searching: "Suche nach [SEARCH_TERM]...",
+        },
+      });
+    } catch (error) {
+      console.warn(
+        'Pagefind ist im Dev-Modus nicht verfügbar. Bitte "npm run build && npm run preview" ausführen.',
+      );
+      // Zeige eine Nachricht im Modal
+      const container = document.getElementById("pagefind-search");
+      if (container) {
+        container.innerHTML = `
+          <div style="padding: 2rem; text-align: center; color: #6b7280;">
+            <p>⚠️ Search ist nur im Production-Build verfügbar.</p>
+            <p style="margin-top: 1rem; font-size: 0.875rem;">
+              Führe <code style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">npm run build && npm run preview</code> aus.
+            </p>
+          </div>
+        `;
+      }
+    }
+  }
+
+  // Modal-Funktionen
+  const modal = document.getElementById("search-modal");
+  const openBtn = document.getElementById("search-open");
+  const backdrop = document.getElementById("search-backdrop");
+
+  let pagefindLoaded = false;
+
+  openBtn?.addEventListener("click", async () => {
+    modal?.classList.remove("hidden");
+    if (!pagefindLoaded) {
+      await loadPagefind();
+      pagefindLoaded = true;
+    }
+    // Focus auf Search-Input
+    setTimeout(() => {
+      const input = document.querySelector("#pagefind-search input");
+      (input as HTMLInputElement)?.focus();
+    }, 100);
+  });
+
+  backdrop?.addEventListener("click", () => {
+    modal?.classList.add("hidden");
+  });
+
+  // Keyboard shortcut (Cmd/Ctrl + K)
+  document.addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      openBtn?.click();
+    }
+
+    // ESC zum Schließen
+    if (e.key === "Escape") {
+      modal?.classList.add("hidden");
+    }
+  });
+</script>
+
+<style>
+  .search-container {
+    position: relative;
+  }
+
+  .search-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: #6b7280;
+    transition: all 0.2s;
+  }
+
+  .search-button:hover {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+  }
+
+  .search-button kbd {
+    padding: 0.125rem 0.375rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+  }
+
+  .search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10vh;
+  }
+
+  .search-modal.hidden {
+    display: none;
+  }
+
+  .search-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .search-content {
+    position: relative;
+    z-index: 1001;
+    width: 90%;
+    max-width: 600px;
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-height: 70vh;
+    overflow: auto;
+  }
+
+  /* Pagefind UI Styling */
+  :global(#pagefind-search) {
+    padding: 1rem;
+  }
+
+  :global(.pagefind-ui__search-input) {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    outline: none;
+  }
+
+  :global(.pagefind-ui__search-input:focus) {
+    border-color: #059669;
+  }
+
+  :global(.pagefind-ui__result) {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  :global(.pagefind-ui__result:hover) {
+    background: #f9fafb;
+  }
+
+  :global(.pagefind-ui__result-title) {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #059669;
+    margin-bottom: 0.25rem;
+  }
+
+  :global(.pagefind-ui__result-excerpt) {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+</style>

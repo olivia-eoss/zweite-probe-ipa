@@ -1,53 +1,128 @@
 ---
-const {
-  title = "HEV Dokumentation metasfresh",
-  subtitle = "Dokumentation zum HEV Admin (metasfresh) für die Nutzer der HEV Sektion.",
-  primaryLabel = "Zur Dokumentation",
-  primaryHref = "/docs/",
-  secondaryLabel = "zu metasfresh",
-  secondaryHref = "https://www.metasfresh.com",
-} = Astro.props;
+import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
+import Search from "@astrojs/starlight/components/Search.astro";
+import Button from "./Button.astro";
+
+const nav = [
+  { label: "Mitglieder", href: "/docs/mitglieder/" },
+  { label: "Rechnungen", href: "/docs/rechnungen/" },
+  { label: "Zahlungen", href: "/docs/zahlungen/" },
+  { label: "Auswertung", href: "/docs/auswertung/" },
+];
 ---
 
-<section class="hev-hero">
-  <div class="hev-hero__inner">
-    <h1 class="hev-hero__title">{title}</h1>
-    <p class="hev-hero__subtitle">{subtitle}</p>
+<header class="hev-header">
+  <div class="hev-header__inner">
+    <div class="hev-header__left">
+      <SiteTitle />
+    </div>
 
-    <div class="hev-hero__actions">
-      <a class="hev-btn hev-btn--primary" href={primaryHref}>
-        {primaryLabel}
-      </a>
+    <nav class="hev-header__nav" aria-label="Hauptnavigation">
+      {
+        nav.map((item) => (
+          <a class="hev-header__link" href={item.href}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
 
-      <a
-        class="hev-btn hev-btn--outline"
-        href={secondaryHref}
-        target="_blank"
-        rel="noreferrer"
+    <div class="hev-header__right">
+      <div class="hev-header__search">
+        <Search />
+      </div>
+
+      <Button
+        href="/docs/kontakt/"
+        mode="internal"
+        color="green"
+        class="hev-header__contact"
       >
-        {secondaryLabel}
-      </a>
+        Kontakt
+      </Button>
     </div>
   </div>
-</section>
+</header>
 
 <style>
-  .hev-hero {
-    padding: 4.5rem 1.25rem 3.5rem;
-    text-align: center;
+  .hev-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--sl-color-bg);
+    border-bottom: 1px solid var(--sl-color-hairline);
   }
 
-  .hev-hero__inner {
-    max-width: 980px;
+  /* Mehr Luft oben/unten + container */
+  .hev-header__inner {
+    max-width: 1600px;
     margin: 0 auto;
+    padding: 1.25rem 1.25rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.75rem;
   }
 
-  .hev-hero__title {
+  .hev-header__left :global(img),
+  .hev-header__left :global(svg) {
+    width: auto;
+    height: 40px;
+  }
+
+  .hev-header__nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    white-space: nowrap;
+  }
+
+  .hev-header__link:hover {
     color: var(--sl-color-accent);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin: 0 0 0.5rem;
+    opacity: 1;
   }
 
-  .hev-hero__subtitle {
-    marg
+  /* Rechts */
+  .hev-header__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Kontakt Button etwas “fetter” wie im Screenshot */
+  .hev-header__contact {
+    height: 42px;
+    padding: 0 1.1rem;
+  }
+
+  .hev-header__contact:hover {
+    filter: brightness(0.98);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hev-header__inner {
+      padding: 1rem 1rem;
+      grid-template-columns: auto 1fr auto;
+      gap: 1rem;
+    }
+
+    .hev-header__nav {
+      display: none;
+    }
+
+    .hev-header__search :global(.sl-search) {
+      width: 220px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hev-header__search :global(.sl-search) {
+      width: 160px;
+    }
+
+    .hev-header__contact {
+      padding: 0 0.9rem;
+    }
+  }
+</style>

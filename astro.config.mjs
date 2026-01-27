@@ -13,7 +13,8 @@ export default defineConfig({
 			},
 			customCss: ["./src/styles/global.css"],
 			components: {
-			Hero: "./src/components/MyHeader.astro",
+			Hero: "./src/components/MyHero.astro",
+			Header: "./src/components/MyHeader.astro",
 			},
 			sidebar: [
 				{
@@ -29,4 +30,11 @@ export default defineConfig({
 			],
 		}),
 	],
+	vite: {
+		build: {
+			rollupOptions: {
+				external: ['/pagefind/pagefind.js']
+			}
+		}
+	}
 });
